@@ -8,6 +8,7 @@ import { LoginSchema } from "@/schemas"
 import { AuthError } from "next-auth"
 import * as z from "zod"
 
+import { sendVerificationEmail } from "@/lib/mail"
 import { generateVerficationToken } from "@/lib/tokens"
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
@@ -27,7 +28,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
   if (!existingUser.emailVerified) {
     const verificationToken = await getVerificationTokenByEmail(email)
-
     // If the user already has a verification token & it is not expired
     if (
       verificationToken &&
@@ -36,10 +36,15 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     ) {
       return { alert: "Please verify your email" }
     }
-
+    // Otherwise, generate a new verification token and send magic link email
     const newVerificationToken = await generateVerficationToken(
       existingUser.email
     )
+    await sendVerificationEmail(
+      newVerificationToken.email,
+      newVerificationToken.token
+    )
+
     return { alert: "New verification email sent.\nPlease verify your email." }
   }
 
