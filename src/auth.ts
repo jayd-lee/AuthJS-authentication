@@ -5,6 +5,7 @@ import NextAuth from "next-auth"
 
 import { db } from "@/lib/db"
 
+import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation"
 import { getUserById } from "./data/user"
 
 export const {
@@ -35,7 +36,18 @@ export const {
       // prevent sign in without verifications
       if (!existingUser?.emailVerified) return false
 
-      // TODO: Add 2FA check
+      if (existingUser.isTwoFactorEnabled) {
+        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
+          existingUser.id
+        )
+
+        if (!twoFactorConfirmation) return false
+
+        // Delete two factor confirmation for next sign in
+        await db.twoFactorConfirmation.delete({
+          where: { id: twoFactorConfirmation.id },
+        })
+      }
 
       return true
     },
