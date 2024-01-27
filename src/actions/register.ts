@@ -23,7 +23,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   if (existingUser) {
     return {
-      error:
+      alert:
         "This address is already linked to an existing account. To continue, log in.",
     }
   }
