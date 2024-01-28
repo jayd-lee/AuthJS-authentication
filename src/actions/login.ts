@@ -13,9 +13,12 @@ import * as z from "zod"
 
 import { db } from "@/lib/db"
 import { sendTwoFactorTokenEmail, sendVerificationEmail } from "@/lib/mail"
-import { generateTwoFactorToken, generateVerficationToken } from "@/lib/tokens"
+import { generateTwoFactorToken, generateVerificationToken } from "@/lib/tokens"
 
-export const login = async (values: z.infer<typeof LoginSchema>) => {
+export const login = async (
+  values: z.infer<typeof LoginSchema>,
+  callbackUrl?: string | null
+) => {
   const validatedFields = LoginSchema.safeParse(values)
 
   if (!validatedFields.success) return { error: "Invalid fields!" }
@@ -39,7 +42,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       return { alert: "Please verify your email" }
     }
     // Otherwise, generate a new verification token and send magic link email
-    const newVerificationToken = await generateVerficationToken(
+    const newVerificationToken = await generateVerificationToken(
       existingUser.email
     )
     await sendVerificationEmail(
@@ -99,7 +102,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       email,
       password,
       // Explicit redirect. Also works without, since middleware takes care of the url redirect logic
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     })
   } catch (error) {
     if (error instanceof AuthError) {
