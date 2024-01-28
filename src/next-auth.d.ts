@@ -5,8 +5,16 @@ declare module "next-auth" {
   interface Session {
     user: {
       role: UserRole
+      isTwoFactorEnabled: boolean
+      isOAuth: boolean
     } & DefaultSession["user"]
   }
+}
+
+export type ExtendedUser = DefaultSession["user"] & {
+  role: UserRole
+  isTwoFactorEnabled: boolean
+  isOAuth: boolean
 }
 
 declare module "next-auth/jwt" {
