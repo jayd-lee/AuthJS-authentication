@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
-import { login } from "@/actions/login"
+import { login } from "@/actions/auth/login"
 import { LoginSchema } from "@/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -25,6 +25,7 @@ import { FormError } from "@/components/form-error"
 
 export const LoginForm = () => {
   const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackUrl")
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"
       ? "Email already in use with different provider!"
@@ -48,7 +49,7 @@ export const LoginForm = () => {
     setAlert("")
 
     startTransition(() => {
-      login(values)
+      login(values, callbackUrl)
         .then((data) => {
           setError(data?.error)
           setAlert(data?.alert)

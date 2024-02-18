@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { newVerification } from "@/actions/new-verification"
+import { newVerification } from "@/actions/auth/new-verification"
 import { ClipLoader } from "react-spinners"
 
 import { CardWrapper } from "@/components/auth/card-wrapper"
