@@ -1,9 +1,9 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { newVerification } from "@/actions/auth/new-verification"
-import { ClipLoader } from "react-spinners"
+import { Loader } from "lucide-react"
 
 import { CardWrapper } from "@/components/auth/card-wrapper"
 import { FormError } from "@/components/form-error"
@@ -46,7 +46,9 @@ export const NewVerificationForm = () => {
       backButtonHref="/auth/login"
     >
       <div className="flex w-full items-center justify-center">
-        {!success && !error && <ClipLoader speedMultiplier={0.25} />}
+        {!success && !error && (
+          <Loader className="h-12 w-12 animate-spin text-primary/60 duration-3000" />
+        )}
         <FormSuccess message={success} />
         {!success && <FormError message={error} />}
       </div>
