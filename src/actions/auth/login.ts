@@ -28,7 +28,7 @@ export const login = async (
   const existingUser = await getUserByEmail(email)
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
-    return { error: "Invalid Credentials!" }
+    return { error: "Invalid email or password" }
   }
 
   if (!existingUser.emailVerified) {
@@ -58,7 +58,7 @@ export const login = async (
       password,
       existingUser.password
     )
-    if (!isPasswordValid) return { error: "Invalid credentials!" }
+    if (!isPasswordValid) return { error: "Invalid email or password" }
 
     if (code) {
       const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email)
@@ -108,7 +108,7 @@ export const login = async (
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return { error: "Invalid Credentials!" }
+          return { error: "Invalid email or password" }
         default:
           return { error: "Something went wrong!" }
       }

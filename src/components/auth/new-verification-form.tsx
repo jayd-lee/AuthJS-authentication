@@ -10,7 +10,6 @@ import { FormError } from "@/components/form-error"
 import { FormSuccess } from "@/components/form-success"
 
 export const NewVerificationForm = () => {
-  const router = useRouter()
   const [error, setError] = useState<string | undefined>()
   const [success, setSuccess] = useState<string | undefined>()
 
