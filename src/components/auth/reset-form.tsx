@@ -11,15 +11,15 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { FormInput } from "@/components/ui/form-input"
+import { BackButton } from "@/components/auth/back-button"
 import { CardWrapper } from "@/components/auth/card-wrapper"
-
-import { FormSuccess } from "../form-success"
+import { FormSuccess } from "@/components/form-success"
 
 export const ResetForm = () => {
   const [error, setError] = useState<string | undefined>("")
@@ -49,7 +49,7 @@ export const ResetForm = () => {
   return (
     <CardWrapper
       headerLabel="Forgot your password?"
-      backButtonLabel="Back to login"
+      backButtonLabel="Back"
       backButtonHref="/auth/login"
     >
       <Form {...form}>
@@ -60,16 +60,19 @@ export const ResetForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
+                    <FormInput
                       disabled={isPending}
                       {...field}
-                      placeholder="john.doe@example.com"
+                      placeholder="Email"
                       type="email"
                     />
                   </FormControl>
                   <FormMessage />
+                  <FormDescription className="pb-2 pt-4 text-sm font-[350] text-black">
+                    We’ll send a verification code to this email if it matches
+                    an existing account.
+                  </FormDescription>
                 </FormItem>
               )}
             />
