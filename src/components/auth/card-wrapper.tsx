@@ -8,14 +8,20 @@ import { Social } from "@/components/auth/social"
 interface CardWraperProps {
   children: React.ReactNode
   headerLabel: string
-  backButtonLabel: string
-  backButtonHref: string
+  subHeaderLabel?: string
+  subLink?: string
+  subLinkLabel?: string
+  backButtonLabel?: string
+  backButtonHref?: string
   showSocial?: boolean
 }
 
 export const CardWrapper = ({
   children,
   headerLabel,
+  subHeaderLabel,
+  subLink,
+  subLinkLabel,
   backButtonLabel,
   backButtonHref,
   showSocial,
@@ -23,7 +29,12 @@ export const CardWrapper = ({
   return (
     <Card className="w-[375px] rounded-xl shadow-lg">
       <CardHeader>
-        <Header label={headerLabel} />
+        <Header
+          headerLabel={headerLabel}
+          subHeaderLabel={subHeaderLabel}
+          subLinkLabel={subLinkLabel}
+          subLink={subLink}
+        />
       </CardHeader>
       <CardContent>{children}</CardContent>
       {showSocial && (
@@ -31,7 +42,7 @@ export const CardWrapper = ({
           <Social />
         </CardFooter>
       )}
-      {backButtonLabel && (
+      {backButtonLabel && backButtonHref && (
         <CardFooter>
           <BackButton label={backButtonLabel} href={backButtonHref} />
         </CardFooter>
