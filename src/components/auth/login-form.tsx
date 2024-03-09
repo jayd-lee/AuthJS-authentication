@@ -18,12 +18,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { FormInput } from "@/components/ui/form-input"
+import { Icons } from "@/components/ui/icons"
+import { OTPInput } from "@/components/ui/otp-input"
 import { CardWrapper } from "@/components/auth/card-wrapper"
 import { FormAlert } from "@/components/form-alert"
 import { FormError } from "@/components/form-error"
-
-import { FormInput } from "../ui/form-input"
-import { OTPInput } from "../ui/otp-input"
 
 export const LoginForm = () => {
   const router = useRouter()
@@ -67,13 +67,14 @@ export const LoginForm = () => {
 
   return (
     <CardWrapper
-      headerLabel={
+      headerLabel={!showTwoFactor ? "Login" : "Two-factor Authentication"}
+      subHeaderLabel={
         !showTwoFactor
-          ? "Welcome back"
-          : "Enter the verification code sent to your email"
+          ? "Don't have an account?"
+          : "Enter the two-factor authentication code sent to your email."
       }
-      backButtonLabel={!showTwoFactor ? "Don't have an account?" : ""}
-      backButtonHref={!showTwoFactor ? "/auth/register" : ""}
+      subLinkLabel={!showTwoFactor ? "Sign up" : ""}
+      subLink="/auth/register"
       showSocial={!showTwoFactor}
     >
       <Form {...form}>
@@ -85,7 +86,7 @@ export const LoginForm = () => {
                 name="code"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Two factor code</FormLabel>
+                    <FormLabel>Authentication code</FormLabel>
                     <FormControl>
                       <OTPInput {...field} />
                     </FormControl>
@@ -146,6 +147,9 @@ export const LoginForm = () => {
           <FormError message={error || urlError} />
           <FormAlert message={alert} />
           <Button disabled={isPending} type="submit" className="w-full">
+            {isPending && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}{" "}
             {showTwoFactor ? "Confirm" : "Login"}
           </Button>
         </form>

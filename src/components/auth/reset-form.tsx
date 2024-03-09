@@ -17,8 +17,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { FormInput } from "@/components/ui/form-input"
-import { BackButton } from "@/components/auth/back-button"
+import { Icons } from "@/components/ui/icons"
 import { CardWrapper } from "@/components/auth/card-wrapper"
+import { FormError } from "@/components/form-error"
 import { FormSuccess } from "@/components/form-success"
 
 export const ResetForm = () => {
@@ -49,6 +50,7 @@ export const ResetForm = () => {
   return (
     <CardWrapper
       headerLabel="Forgot your password?"
+      subHeaderLabel="We’ll send a verification code to this email if it matches an existing account."
       backButtonLabel="Back"
       backButtonHref="/auth/login"
     >
@@ -69,16 +71,16 @@ export const ResetForm = () => {
                     />
                   </FormControl>
                   <FormMessage />
-                  <FormDescription className="pb-2 pt-4 text-sm font-[350] text-black">
-                    We’ll send a verification code to this email if it matches
-                    an existing account.
-                  </FormDescription>
                 </FormItem>
               )}
             />
           </div>
           <FormSuccess message={success} />
+          <FormError message={error} />
           <Button disabled={isPending} type="submit" className="w-full">
+            {isPending && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}{" "}
             Send link
           </Button>
         </form>

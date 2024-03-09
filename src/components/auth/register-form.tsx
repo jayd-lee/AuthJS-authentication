@@ -16,12 +16,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { Icons } from "@/components/ui/icons"
 import { Input } from "@/components/ui/input"
 import { CardWrapper } from "@/components/auth/card-wrapper"
+import { FormAlert } from "@/components/form-alert"
 import { FormError } from "@/components/form-error"
 import { FormSuccess } from "@/components/form-success"
-
-import { FormAlert } from "../form-alert"
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("")
@@ -35,7 +35,6 @@ export const RegisterForm = () => {
     defaultValues: {
       email: "",
       password: "",
-      name: "",
     },
   })
 
@@ -57,9 +56,10 @@ export const RegisterForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Create an account"
-      backButtonLabel="Already have an account?"
-      backButtonHref="/auth/login"
+      headerLabel="Create Account"
+      subHeaderLabel="Already have an account?"
+      subLinkLabel="Login"
+      subLink="/auth/login"
       showSocial
     >
       <Form {...form}>
@@ -67,32 +67,17 @@ export const RegisterForm = () => {
           <div className="space-y-4">
             <FormField
               control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isPending}
-                      {...field}
-                      placeholder="John Doe"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-md font-medium">
+                    Email address
+                  </FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPending}
                       {...field}
-                      placeholder="john.doe@example.com"
+                      placeholder="Email address"
                       type="email"
                     />
                   </FormControl>
@@ -105,12 +90,14 @@ export const RegisterForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="text-md font-medium">
+                    Password
+                  </FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPending}
                       {...field}
-                      placeholder="******"
+                      placeholder="Password"
                       type="password"
                     />
                   </FormControl>
@@ -123,6 +110,9 @@ export const RegisterForm = () => {
           <FormAlert message={alert} />
           <FormSuccess message={success} />
           <Button disabled={isPending} type="submit" className="w-full">
+            {isPending && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}{" "}
             Create an account
           </Button>
         </form>
