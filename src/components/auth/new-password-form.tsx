@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react"
 import { useSearchParams } from "next/navigation"
-import { newPassword } from "@/actions/new-password"
+import { newPassword } from "@/actions/auth/new-password"
 import { NewPasswordSchema } from "@/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -17,6 +17,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { Icons } from "@/components/ui/icons"
 import { Input } from "@/components/ui/input"
 import { CardWrapper } from "@/components/auth/card-wrapper"
 import { FormError } from "@/components/form-error"
@@ -51,7 +52,8 @@ export const NewPasswordForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Enter a new password?"
+      headerLabel="Enter a new password"
+      subHeaderLabel="Please enter your new password below."
       backButtonLabel="Back to login"
       backButtonHref="/auth/login"
     >
@@ -68,7 +70,7 @@ export const NewPasswordForm = () => {
                     <Input
                       disabled={isPending}
                       {...field}
-                      placeholder="******"
+                      placeholder="New Password"
                       type="password"
                     />
                   </FormControl>
@@ -80,6 +82,9 @@ export const NewPasswordForm = () => {
           <FormError message={error} />
           <FormSuccess message={success} />
           <Button disabled={isPending} type="submit" className="w-full">
+            {isPending && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}{" "}
             Reset Password
           </Button>
         </form>

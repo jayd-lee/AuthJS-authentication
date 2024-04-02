@@ -1,7 +1,7 @@
 import crypto from "crypto"
-import { getPasswordResetTokenByEmail } from "@/data/password-reset-token"
-import { getTwoFactorTokenByEmail } from "@/data/two-factor-token"
-import { getVerificationTokenByEmail } from "@/data/verification-token"
+import { getPasswordResetTokenByEmail } from "@/data/auth/password-reset-token"
+import { getTwoFactorTokenByEmail } from "@/data/auth/two-factor-token"
+import { getVerificationTokenByEmail } from "@/data/auth/verification-token"
 import { v4 as uuidv4 } from "uuid"
 
 import { db } from "@/lib/db"
@@ -53,7 +53,7 @@ export const generatePasswordResetToken = async (email: string) => {
   return passwordResetToken
 }
 
-export const generateVerficationToken = async (email: string) => {
+export const generateVerificationToken = async (email: string) => {
   const token = uuidv4()
   const expires = new Date(new Date().getTime() + 3600 * 1000) //expires in 1 hour
   const existingToken = await getVerificationTokenByEmail(email)

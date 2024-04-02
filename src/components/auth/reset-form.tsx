@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useTransition } from "react"
-import { reset } from "@/actions/reset"
+import { reset } from "@/actions/auth/reset"
 import { ResetSchema } from "@/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -11,15 +11,16 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { FormInput } from "@/components/ui/form-input"
+import { Icons } from "@/components/ui/icons"
 import { CardWrapper } from "@/components/auth/card-wrapper"
-
-import { FormSuccess } from "../form-success"
+import { FormError } from "@/components/form-error"
+import { FormSuccess } from "@/components/form-success"
 
 export const ResetForm = () => {
   const [error, setError] = useState<string | undefined>("")
@@ -49,7 +50,8 @@ export const ResetForm = () => {
   return (
     <CardWrapper
       headerLabel="Forgot your password?"
-      backButtonLabel="Back to login"
+      subHeaderLabel="We’ll send a verification code to this email if it matches an existing account."
+      backButtonLabel="Back"
       backButtonHref="/auth/login"
     >
       <Form {...form}>
@@ -60,12 +62,11 @@ export const ResetForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
+                    <FormInput
                       disabled={isPending}
                       {...field}
-                      placeholder="john.doe@example.com"
+                      placeholder="Email"
                       type="email"
                     />
                   </FormControl>
@@ -75,7 +76,11 @@ export const ResetForm = () => {
             />
           </div>
           <FormSuccess message={success} />
+          <FormError message={error} />
           <Button disabled={isPending} type="submit" className="w-full">
+            {isPending && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}{" "}
             Send link
           </Button>
         </form>

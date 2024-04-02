@@ -1,20 +1,20 @@
 "use server"
 
-import { getUserByEmail } from "@/data/user"
+import { getUserByEmail } from "@/data/auth/user"
 import { RegisterSchema } from "@/schemas"
 import bcrypt from "bcryptjs"
 import * as z from "zod"
 
 import { db } from "@/lib/db"
 import { sendVerificationEmail } from "@/lib/mail"
-import { generateVerficationToken } from "@/lib/tokens"
+import { generateVerificationToken } from "@/lib/tokens"
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values)
 
   if (!validatedFields.success) return { error: "Invalid fields!" }
 
-  const { email, password, name } = validatedFields.data
+  const { email, password } = validatedFields.data
 
   const lowercaseEmail = email.toLowerCase()
   const hashedPassword = await bcrypt.hash(password, 10)
@@ -30,13 +30,12 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   await db.user.create({
     data: {
-      name,
       email: lowercaseEmail,
       password: hashedPassword,
     },
   })
 
-  const verificationToken = await generateVerficationToken(email)
+  const verificationToken = await generateVerificationToken(email)
 
   await sendVerificationEmail(verificationToken.email, verificationToken.token)
 

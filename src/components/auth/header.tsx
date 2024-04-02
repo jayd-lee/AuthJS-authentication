@@ -1,28 +1,31 @@
-import { cn } from '@/lib/utils';
-import { Poppins } from 'next/font/google'
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['600']
-})
+import Link from "next/link"
 
 interface HeaderProps {
-  label: string
+  headerLabel: string
+  subHeaderLabel?: string
+  subLinkLabel?: string
+  subLink?: string
 }
 
 export const Header = ({
-  label,
+  headerLabel,
+  subHeaderLabel,
+  subLinkLabel,
+  subLink,
 }: HeaderProps) => {
   return (
-    <div className='w-full flex flex-col gap-y-4 items-center justify-center'>
-      <h1 className={cn(
-        'text-3xl font-semibold',
-        poppins.className,
-      )}>
-        🔐 Auth
-      </h1>
-      <p className='text-muted-foreground text-sm'>
-        {label}
+    <div className="flex w-full flex-col justify-center gap-y-2">
+      <h1 className="text-3xl font-semibold">{headerLabel}</h1>
+      <p className="text-sm text-primary">
+        {subHeaderLabel}{" "}
+        {subLinkLabel && subLink && (
+          <Link
+            href={subLink}
+            className="font-medium text-muted-foreground hover:underline"
+          >
+            {subLinkLabel}
+          </Link>
+        )}
       </p>
     </div>
   )
