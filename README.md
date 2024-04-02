@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NextJS Auth boilerplate with AuthJS (NextAuth V5)
 
-## Getting Started
+Key Features:
+- Next-auth v5 (Auth.js)
+- Next.js 14 with server actions
+- Credentials Provider
+- OAuth Provider
+- Forgot password functionality
+- Email verification
+- Two factor verification
+- User roles (Admin & User)
+- Login, Register, Forgot password, Verification component, and Error page components
+- Role Gate
+- next.js middleware &  callbacks
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**Node version 18.7.x**
+
+### Cloning the repository
+
+```shell
+git clone https://github.com/jayd-lee/AuthJS-boilerplate
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install packages
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```shell
+pnpm i
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Setup .env file
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+```js
+DATABASE_URL=
+DIRECT_URL=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+AUTH_SECRET=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
 
-## Deploy on Vercel
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+RESEND_API_KEY=
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+NEXT_PUBLIC_APP_URL=
+```
+
+### Setup Prisma
+```shell
+pnpm dlx prisma generate
+pnpm dlx prisma db push
+```
+
+### Start the app
+
+```shell
+pnpm run dev
+```
+
+## Available commands
+
+Running commands with npm `npm run [command]`
+
+| command         | description                                      |
+| :-------------- | :----------------------------------------------- |
+| `dev`           | Starts a development instance of the app         |
+| `email`         | Starts a development preview interface for email |
+
